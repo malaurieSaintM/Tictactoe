@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title> Tic Tac Toe </title>
+		<meta charset = "UTF-8">
+		<meta name="author" content="TicTacToe">
+        <link rel="stylesheet" href="vendor/bootstrap-4.3.1/css/bootstrap.min.css">
+
+        <link rel="stylesheet" href="assets/css/style.css">
+
+		
+	</head>
+	
+	<body onload="game();">
+        <h1> Tic Tac Toe </h1>
+
+	    <div id="score"> score </div>
+		<div id="message"> message </div>
+		<table class="table-dark">
+		<tr>
+			<td class="cell"  onClick="XO(this)" id="1" > </td>
+			<td class="cell"  onClick="XO(this)" id="2" > </td>
+			<td class="cell"  onClick="XO(this)" id="3" > </td>
+		</tr>
+		<tr>
+			<td class="cell"  onClick="XO(this)" id="4"> </td>
+			<td class="cell"  onClick="XO(this)" id="5"> </td>
+			<td class="cell"  onClick="XO(this)" id="6"> </td>
+		</tr>
+		<tr>
+			<td class="cell"  onClick="XO(this)" id="7"> </td>
+			<td class="cell"  onClick="XO(this)" id="8"> </td>
+			<td class="cell"  onClick="XO(this)" id="9"> </td>
+		</tr>
+		</table>
+
+        <input class="button" type="button" value="Rejouer" id="clear" onClick="clearAll()">
+        <script>
+
+            index=0
+            scoreX = 0
+            scoreO = 0
+
+            function game() {
+                document.turn ="X"
+                display(document.turn+", c'est à toi de jouer.")
+                displayScore(scoreX, scoreO)
+            }
+            //fonction qui permet de savoir qui joue
+            function XO(elem){
+                if(checkCell(elem)){
+                    elem.innerText=document.turn
+                    nextTurn()
+                    index = index +1
+                    display(document.turn +" , c'est à toi de jouer.")
+                    checkWinner()
+                }
+            }
+
+
+            //fonction qui permet de savoir si la case est prise ou non
+            function checkCell(elem){
+                if(elem.innerText==''){
+                    return 1
+                }
+                else{
+                    alert("Case déjà prise")
+                }
+            }
+            //fonction qui permet de mettre une croix ou un rond
+            function nextTurn(){
+                if(document.turn=="X"){
+                    document.turn="O"
+                }
+                else{
+                    document.turn="X"
+                }
+            }
+            function display(elem){
+                document.getElementById("message").innerText=elem
+            }
+            //fonction qui permet d'afficher le score
+            function displayScore(scoreX, scoreO){
+                document.getElementById("score").innerText="Score X : " + scoreX + " , Score O : " + scoreO
+            }
+
+            function clearCell(number){
+                document.getElementById(number).innerText=''
+            }
+            //fonction qui permet au bouton de rejouer
+            function clearAll(){
+                for(var i = 1; i < 10; i++){
+                    clearCell(i)
+                }
+                index = 0
+                display("Nouvelle partie, " + document.turn + ", c'est à toi de jouer.")
+            }
+
+            function getCell(number) {
+                return document.getElementById(number).innerText
+            }
+
+            // fonction qui permet de savoir si les combinaisons sont ok ou non
+            // si la cellule 1 == a la cellule 2 ET la cellule 2 == a la cellule 3 ET la cellule 3 est differente de vide alors c'est gagné !!
+            function checkWinner(){
+                if(getCell(1)== getCell(2) && getCell(2)==getCell(3) && getCell(3)!='' ||
+                    getCell(4)== getCell(5) && getCell(5)==getCell(6) && getCell(6)!='' ||
+                    getCell(7)== getCell(8) && getCell(8)==getCell(9) && getCell(9)!=''||
+                    getCell(1)== getCell(4) && getCell(4)==getCell(7) && getCell(7)!=''||
+                    getCell(2)== getCell(5) && getCell(5)==getCell(8) && getCell(8)!=''||
+                    getCell(3)== getCell(6) && getCell(6)==getCell(9) && getCell(9)!=''||
+                    getCell(1)== getCell(5) && getCell(5)==getCell(9) && getCell(9)!=''||
+                    getCell(3)== getCell(5) && getCell(5)==getCell(7) && getCell(7)!=''){
+
+                    if(document.turn=="O"){
+                        display(" X gagne ! ")
+                        scoreX = scoreX +1
+                        displayScore(scoreX, scoreO);
+                    }
+                    else{
+                        display(" O gagne ! ")
+                        scoreO = scoreO +1
+                        displayScore(scoreX, scoreO)
+                    }
+                } else if (index == 9){
+                    display("Partie nul, Essayé de rejouer.")
+                }
+            }
+        </script>
+        <script src="assets/js/jquery-3.3.1.min.js"></script>
+        <script src="assets/js/popper.min.js"></script>
+        <script src="vendor/bootstrap-4.3.1/js/bootstrap.min.js"></script>
+	</body>
+</html>
